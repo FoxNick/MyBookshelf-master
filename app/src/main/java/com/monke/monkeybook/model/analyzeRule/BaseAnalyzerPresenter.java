@@ -306,4 +306,9 @@ abstract class BaseAnalyzerPresenter<S> implements IAnalyzerPresenter, JavaExecu
     public final String formatHtml(String string) {
         return mSimpleJavaExecutor.formatHtml(string);
     }
+
+    @Override
+    public final String decodeChapterContent(String string) {
+        return mSimpleJavaExecutor.decodeChapterContent(string);
+    }
 }

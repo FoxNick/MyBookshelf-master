@@ -130,7 +130,7 @@ public class WebBookModel implements IWebBookModel {
     private IStationBookModel getBookSourceModel(String tag) {
         if (BookShelfBean.LOCAL_TAG.equals(tag)) {
             return null;
-        }  else if (TextUtils.equals(tag, DefaultShuqi.TAG)) {
+        } else if (TextUtils.equals(tag, DefaultShuqi.TAG)) {
             return DefaultShuqi.getInstance();
         } else {
             return DefaultModel.newInstance(tag);

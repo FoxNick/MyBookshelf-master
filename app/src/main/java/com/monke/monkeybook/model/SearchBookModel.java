@@ -1,7 +1,6 @@
 package com.monke.monkeybook.model;
 
 import android.content.Context;
-import android.icu.text.SearchIterator;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;

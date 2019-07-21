@@ -3,7 +3,10 @@ package com.monke.monkeybook.model.analyzeRule.assit;
 import com.monke.monkeybook.help.TextProcessor;
 import com.monke.monkeybook.model.SimpleModel;
 import com.monke.monkeybook.model.analyzeRule.AnalyzeUrl;
+import com.monke.monkeybook.model.content.DefaultShuqi;
 import com.monke.monkeybook.utils.StringUtils;
+
+import java.nio.charset.StandardCharsets;
 
 public class SimpleJavaExecutorImpl implements SimpleJavaExecutor {
 
@@ -34,5 +37,10 @@ public class SimpleJavaExecutorImpl implements SimpleJavaExecutor {
     @Override
     public final String formatHtml(String string) {
         return TextProcessor.formatHtml(string);
+    }
+
+    @Override
+    public  String decodeChapterContent(String string) {
+        return DefaultShuqi.getInstance().decodeChapterContent(string);
     }
 }
