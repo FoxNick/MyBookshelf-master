@@ -8,6 +8,11 @@
         android:title="@string/action_save"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/action_debug"
+        android:icon="@drawable/ic_developer_board_black_24dp"
+        android:title="@string/source_debug"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_copy_source"
@@ -31,12 +36,6 @@
         android:id="@+id/action_open"
         android:icon="@drawable/ic_launch_black_24dp"
         android:title="@string/open_url"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_debug"
-        android:icon="@drawable/ic_developer_board_black_24dp"
-        android:title="@string/source_debug"
         app:showAsAction="never" />
 
     <item

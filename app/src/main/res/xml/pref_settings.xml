@@ -58,13 +58,19 @@
             android:summary="@string/audio_cache_s"
             android:title="@string/audio_cache" />
 
-
         <SwitchPreference
             android:defaultValue="true"
             android:key="@string/pk_show_all_find"
             android:layout="@layout/view_preference"
             android:summary="@string/show_all_find_s"
             android:title="@string/show_all_find" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pk_source_neizhi"
+            android:layout="@layout/view_preference"
+            android:summary="@string/source_neizhi_find_s"
+            android:title="@string/source_neizhi_find" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="其他">
@@ -94,6 +100,14 @@
             android:title="@string/update_search_threads_num"
             app:MaxValue="50"
             app:MinValue="1" />
+
+        <com.monke.monkeybook.widget.number.NumberPickerPreference
+            android:defaultValue="1212"
+            android:key="webPort"
+            android:summary="@string/web_port_summary"
+            android:title="@string/web_port_title"
+            app:MaxValue="60000"
+            app:MinValue="1024" />
 
     </PreferenceCategory>
 

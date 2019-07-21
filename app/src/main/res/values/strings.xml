@@ -253,6 +253,8 @@
     <string name="edit">编辑</string>
     <string name="delete">删除</string>
     <string name="to_top">置顶</string>
+    <string name="source_neizhi_find">内置书源</string>
+    <string name="source_neizhi_find_s">开启可使用APP内置书源</string>
     <string name="show_all_find">显示所有发现</string>
     <string name="show_all_find_s">关闭则只显示已启用的发现</string>
     <string name="audio_cache">有声书边下边播</string>
@@ -312,6 +314,8 @@
     <string name="goto_setting">去设置</string>
     <string name="renew">更新</string>
     <string name="web_menu">Web服务</string>
+    <string name="web_port_title">web服务端口</string>
+    <string name="web_port_summary">当前使用端口 %s</string>
     <string name="web_edit_source">Web编辑书源</string>
     <string name="http_ip">http://%s:%d</string>
     <string name="more_category">更多</string>

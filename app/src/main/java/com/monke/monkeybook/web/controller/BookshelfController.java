@@ -44,11 +44,11 @@ public class BookshelfController {
         }
         ChapterBean chapter = BookshelfHelp.getChapter(strings.get(0));
         if (chapter == null) {
-            return returnData.setErrorMsg("未找到");
+            return returnData.setErrorMsg("未找到!");
         }
         BookShelfBean bookShelfBean = BookshelfHelp.queryBookByUrl(chapter.getNoteUrl());
         if (bookShelfBean == null) {
-            return returnData.setErrorMsg("未找到");
+            return returnData.setErrorMsg("未找到!!");
         }
         String content = ChapterContentHelp.getChapterCache(bookShelfBean, chapter);
         if (!TextUtils.isEmpty(content)) {

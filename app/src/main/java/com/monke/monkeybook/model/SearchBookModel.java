@@ -1,6 +1,7 @@
 package com.monke.monkeybook.model;
 
 import android.content.Context;
+import android.icu.text.SearchIterator;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -92,7 +93,9 @@ public class SearchBookModel implements ISearchTask.OnSearchingListener {
         if (!searchEngineS.isEmpty()) {
             searchEngineS.clear();
         }
-        searchEngineS.add(new SearchEngine(DefaultShuqi.TAG));
+        if (AppConfigHelper.get().getBoolean("source_neizhi", true)) {
+            searchEngineS.add(new SearchEngine(DefaultShuqi.TAG));
+        }
         final List<BookSourceBean> bookSourceBeans = BookSourceManager.getEnabledByGroup(group);
         if (bookSourceBeans != null && !bookSourceBeans.isEmpty()) {
             for (BookSourceBean bookSourceBean : bookSourceBeans) {
