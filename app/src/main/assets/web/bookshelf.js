@@ -25,7 +25,7 @@ var apiAddress = (apiName, url) => {
         address = "//" + address;
     }
     if (!(/:\d{4,}/).test(address.split("//")[1].split("/")[0])) {
-        address += ":1223";
+        address += ":1122";
     }
     localStorage.setItem('address', address);
     return address + apiMap[apiName] + (url ? "?url=" + encodeURIComponent(url) : "");
@@ -154,7 +154,7 @@ $('#chapter').addEventListener("click", (e) => {
     }
 });
 
-$('#address').setAttribute("placeholder", "阅读APP地址或IP：" + window.location.host);
+$('#address').setAttribute("placeholder", "APP地址或IP：" + window.location.host);
 if (!$('#address').value && typeof localStorage && localStorage.getItem('address')) {
     $('#address').value = localStorage.getItem('address');
 }

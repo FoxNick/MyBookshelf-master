@@ -162,16 +162,16 @@ $('.menu').addEventListener('click', e => {
 								});
 								failMsg = '\n推送失败的书源将用红色字体标注!';
 							}
-							alert(`批量推送书源到「阅读APP」\n共计: ${RuleSources.length} 条\n成功: ${okData.length} 条\n失败: ${RuleSources.length - okData.length} 条${failMsg}`);
+							alert(`批量推送书源到「APP」\n共计: ${RuleSources.length} 条\n成功: ${okData.length} 条\n失败: ${RuleSources.length - okData.length} 条${failMsg}`);
 						}
 						else {
-							alert(`批量推送书源到「阅读APP」成功!\n共计: ${RuleSources.length} 条`);
+							alert(`批量推送书源到「APP」成功!\n共计: ${RuleSources.length} 条`);
 						}
 					}
 					else {
 						alert(`批量推送书源失败!\nErrorMsg: ${json.errorMsg}`);
 					}
-				}).catch(err => { alert(`批量推送书源失败,无法连接到「阅读APP」!\n${err}`); });
+				}).catch(err => { alert(`批量推送书源失败,无法连接到「APP」!\n${err}`); });
 				thisNode.setAttribute('class', '');
 			})();
 			return;
@@ -190,7 +190,7 @@ $('.menu').addEventListener('click', e => {
 					else {
 						alert(`批量拉取书源失败!\nErrorMsg: ${json.errorMsg}`);
 					}
-				}).catch(err => { alert(`批量拉取书源失败,无法连接到「阅读APP」!\n${err}`); });
+				}).catch(err => { alert(`批量拉取书源失败,无法连接到「APP」!\n${err}`); });
 				thisNode.setAttribute('class', '');
 			})();
 			return;
@@ -252,9 +252,9 @@ $('.menu').addEventListener('click', e => {
 			(async () => {
 				let saveRule = [rule2json()];
 				await HttpPost(`/saveSources`, saveRule).then(json => {
-					alert(json.isSuccess ? `书源《${saveRule[0].bookSourceName}》已成功保存到「阅读APP」` : `书源《${saveRule[0].bookSourceName}》保存失败!\nErrorMsg: ${json.errorMsg}`);
+					alert(json.isSuccess ? `书源《${saveRule[0].bookSourceName}》已成功保存到「APP」` : `书源《${saveRule[0].bookSourceName}》保存失败!\nErrorMsg: ${json.errorMsg}`);
 					setRule(saveRule[0]);
-				}).catch(err => { alert(`保存书源失败,无法连接到「阅读APP」!\n${err}`); });
+				}).catch(err => { alert(`保存书源失败,无法连接到「APP」!\n${err}`); });
 				thisNode.setAttribute('class', '');
 			})();
 			return;
@@ -356,7 +356,7 @@ $('.tab3>.titlebar').addEventListener('click', e => {
 						console.log(deleteSources);
 						console.log(`以上书源已删除!`)
 					}
-				}).catch(err => { alert(`删除书源失败,无法连接到「阅读APP」!\n${err}`); });
+				}).catch(err => { alert(`删除书源失败,无法连接到「APP」!\n${err}`); });
 			}
 			break;
 		case 'ClrAll':

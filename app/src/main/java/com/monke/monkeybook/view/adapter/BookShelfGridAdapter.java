@@ -9,17 +9,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.monke.monkeybook.R;
 import com.monke.monkeybook.bean.BookShelfBean;
 import com.monke.monkeybook.view.adapter.base.BaseBookListAdapter;
+import com.monke.monkeybook.widget.BadgeView;
 import com.monke.monkeybook.widget.RotateLoading;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class BookShelfGridAdapter extends BaseBookListAdapter<BookShelfGridAdapter.MyViewHolder> {
 
@@ -63,22 +64,22 @@ public class BookShelfGridAdapter extends BaseBookListAdapter<BookShelfGridAdapt
         }
 
         if (item.isFlag()) {
+            holder.tvHasNew.setVisibility(View.INVISIBLE);
             holder.rotateLoading.show();
         } else {
             holder.rotateLoading.hide();
+            if (item.getHasUpdate()) {
+                holder.tvHasNew.setBadgeCount(item.getNewChapters());
+            } else {
+                holder.tvHasNew.setBadgeCount(item.getUnreadChapterNum());
+            }
+            holder.tvHasNew.setHighlight(item.getHasUpdate());
         }
-
-        if (item.getHasUpdate() && !item.isLocalBook()) {
-            holder.tvHasNew.setVisibility(View.VISIBLE);
-        } else {
-            holder.tvHasNew.setVisibility(View.INVISIBLE);
-        }
-
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView ivCover;
-        TextView tvHasNew;
+        BadgeView tvHasNew;
         TextView tvName;
         RotateLoading rotateLoading;
         public View content;

@@ -11,6 +11,7 @@ import com.monke.monkeybook.bean.SearchBookBean;
 import com.monke.monkeybook.help.BookshelfHelp;
 import com.monke.monkeybook.help.ChapterContentHelp;
 import com.monke.monkeybook.model.content.DefaultModel;
+import com.monke.monkeybook.model.content.DefaultShuqi;
 import com.monke.monkeybook.model.impl.IAudioBookChapterModel;
 import com.monke.monkeybook.model.impl.IStationBookModel;
 import com.monke.monkeybook.model.impl.IWebBookModel;
@@ -129,7 +130,9 @@ public class WebBookModel implements IWebBookModel {
     private IStationBookModel getBookSourceModel(String tag) {
         if (BookShelfBean.LOCAL_TAG.equals(tag)) {
             return null;
-        }  else {
+        }  else if (TextUtils.equals(tag, DefaultShuqi.TAG)) {
+            return DefaultShuqi.getInstance();
+        } else {
             return DefaultModel.newInstance(tag);
         }
     }

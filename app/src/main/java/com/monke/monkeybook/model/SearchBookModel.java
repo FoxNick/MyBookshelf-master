@@ -13,6 +13,7 @@ import com.monke.monkeybook.bean.SearchBookBean;
 import com.monke.monkeybook.bean.SearchEngine;
 import com.monke.monkeybook.help.AppConfigHelper;
 import com.monke.monkeybook.model.annotation.BookType;
+import com.monke.monkeybook.model.content.DefaultShuqi;
 import com.monke.monkeybook.model.impl.ISearchTask;
 import com.monke.monkeybook.model.task.SearchTaskImpl;
 
@@ -91,7 +92,7 @@ public class SearchBookModel implements ISearchTask.OnSearchingListener {
         if (!searchEngineS.isEmpty()) {
             searchEngineS.clear();
         }
-
+        searchEngineS.add(new SearchEngine(DefaultShuqi.TAG));
         final List<BookSourceBean> bookSourceBeans = BookSourceManager.getEnabledByGroup(group);
         if (bookSourceBeans != null && !bookSourceBeans.isEmpty()) {
             for (BookSourceBean bookSourceBean : bookSourceBeans) {
