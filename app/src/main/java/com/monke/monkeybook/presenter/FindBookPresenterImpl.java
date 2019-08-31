@@ -30,6 +30,7 @@ import com.monke.monkeybook.utils.ListUtils;
 import com.monke.monkeybook.utils.MD5Utils;
 import com.monke.monkeybook.utils.StringUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -99,7 +100,7 @@ public class FindBookPresenterImpl extends BasePresenterImpl<FindBookContract.Vi
             e.onNext(groupList);
             e.onComplete();
         })
-                .subscribeOn(RxExecutors.getDefault())
+                .subscribeOn(mScheduler)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(findKindGroupBeans -> {
                     mView.updateUI(findKindGroupBeans);
@@ -171,7 +172,7 @@ public class FindBookPresenterImpl extends BasePresenterImpl<FindBookContract.Vi
                                 findKindGroupBean.setBooks(searchBookBeans);
                                 return Observable.just(findKindGroupBean);
                             }).onErrorResumeNext(throwable -> {
-                                if (throwable instanceof TimeoutException) {
+                                if (throwable instanceof IOException || throwable instanceof TimeoutException) {
                                     return Observable.error(throwable);
                                 }
                                 return Observable.just(findKindGroupBean);

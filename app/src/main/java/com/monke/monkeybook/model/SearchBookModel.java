@@ -152,6 +152,7 @@ public class SearchBookModel implements ISearchTask.OnSearchingListener {
         if (isLoading()) {
             for (ISearchTask searchTask : searchTasks) {
                 searchTask.stopSearch();
+
             }
             searchTasks.clear();
             return true;
@@ -160,13 +161,15 @@ public class SearchBookModel implements ISearchTask.OnSearchingListener {
     }
 
     public void stopSearch() {
+        searchHandler.removeMessages(SearchHandler.MSG_SEARCH);
+        searchHandler.removeMessages(SearchHandler.MSG_QUERY);
         if (clearSearch()) {
             searchHandler.obtainMessage(SearchHandler.MSG_FINISH).sendToTarget();
         }
     }
 
     public void shutdownSearch() {
-        clearSearch();
+        stopSearch();
         scheduler.shutdown();
     }
 

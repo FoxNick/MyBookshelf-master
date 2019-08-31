@@ -15,24 +15,44 @@ import java.util.regex.Pattern;
 public class TextProcessor {
 
     private static final String[] CHAPTER_PATTERNS = new String[]{
-            "^(第?([\\d零〇一二两三四五六七八九十百千万0-9\\s]+)[章节回集场])[\\s、，。　：:.]?",
-            "^([(（\\[【]?([\\d零〇一二两三四五六七八九十百千万0-9\\s]+)[】\\]）)]?)[\\s、，。　：:.]?",
+            "^(.*?([\\d零〇一二两三四五六七八九十百千万]+)[章节回场]){1,2}[\\s、，。　：:.]?",
+            "^(.*?([\\d零〇一二两三四五六七八九十百千万]+)[章节回场]?){1,2}[\\s、，。　：:.](?!([-\\s]?[-\\d零〇一二两三四五六七八九十百千万]+))",
+            "^(第([\\d零〇一二两三四五六七八九十百千万]+)[卷篇集章节回场])$",
+            "^([(（\\[【]?([\\d零〇一二两三四五六七八九十百千万]+)[】\\]）)]?)[\\s、，。　：:.](?!([-\\s]?[-\\d零〇一二两三四五六七八九十百千万]+))"
     };
 
-    private static final String SPECIAL_PATTERN = "第.*?[卷篇集].*?第.*[章节回].*?";
+    private static final String SPECIAL_REGEX = "[\\s、，。　：:._]?第?([\\d零〇一二两三四五六七八九十百千万]+)[章节回场][\\s、，。　：:.]?";
+
+    private static final String SPECIAL_PATTERN = "第.*?[卷篇集].*?" + SPECIAL_REGEX;
 
     private TextProcessor() {
     }
 
-    public static int guessChapterNum(String name) {
-        if (TextUtils.isEmpty(name) || name.matches(SPECIAL_PATTERN)) {
+    public static int guessChapterNum(String chapterName) {
+        if (TextUtils.isEmpty(chapterName) || chapterName.matches(SPECIAL_PATTERN)) {
             return -1;
         }
-        for (String str: CHAPTER_PATTERNS) {
-            Pattern pattern = Pattern.compile(str, Pattern.MULTILINE);
-            Matcher matcher = pattern.matcher(name);
+
+        chapterName = StringUtils.trim(StringUtils.fullToHalf(chapterName)
+                .replace("(", "（")
+                .replace(")", "）")
+                .replaceAll("[\\[\\]【】]+", "")
+                .replaceAll("\\s+", " "));
+
+        Pattern pattern = Pattern.compile(SPECIAL_PATTERN);
+        Matcher matcher = pattern.matcher(chapterName);
+        if (matcher.find()) {
+            return StringUtils.stringToInt(matcher.group(1));
+        }
+
+        for (String chapterPattern : CHAPTER_PATTERNS) {
+            pattern = Pattern.compile(chapterPattern, Pattern.MULTILINE);
+            matcher = pattern.matcher(chapterName);
             if (matcher.find()) {
-                return StringUtils.parseInt(matcher.group(2));
+                int num = StringUtils.stringToInt(matcher.group(2));
+                if (num > 0) {
+                    return num;
+                }
             }
         }
         return -1;
@@ -43,20 +63,29 @@ public class TextProcessor {
             return "";
         }
 
-        chapterName = StringUtils.fullToHalf(chapterName);
-        chapterName = StringUtils.trim(chapterName.replaceAll("\\s+", " "));
+        chapterName = StringUtils.trim(StringUtils.fullToHalf(chapterName)
+                .replace("(", "（")
+                .replace(")", "）")
+                .replaceAll("[\\[\\]【】]+", "")
+                .replaceAll("\\s+", " "));
 
-        if (chapterName.matches(SPECIAL_PATTERN)) {
+        Pattern pattern = Pattern.compile(SPECIAL_PATTERN);
+        Matcher matcher = pattern.matcher(chapterName);
+        if (matcher.find()) {
+            int num = StringUtils.stringToInt(matcher.group(1));
+            chapterName = chapterName.replaceAll(SPECIAL_REGEX, " 第" + num + "章 ");
             return chapterName;
         }
 
         for (String chapterPattern : CHAPTER_PATTERNS) {
-            Pattern pattern = Pattern.compile(chapterPattern, Pattern.MULTILINE);
-            Matcher matcher = pattern.matcher(chapterName);
+            pattern = Pattern.compile(chapterPattern, Pattern.MULTILINE);
+            matcher = pattern.matcher(chapterName);
             if (matcher.find()) {
                 int num = StringUtils.stringToInt(matcher.group(2));
-                chapterName = num > 0 ? matcher.replaceFirst("第" + num + "章 ") : matcher.replaceFirst("$ ");
-                return chapterName;
+                if (num > 0) {
+                    chapterName = matcher.replaceFirst("第" + num + "章 ");
+                    break;
+                }
             }
         }
 
