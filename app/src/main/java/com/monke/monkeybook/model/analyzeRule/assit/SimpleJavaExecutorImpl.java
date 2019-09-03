@@ -4,6 +4,7 @@ import com.monke.monkeybook.help.TextProcessor;
 import com.monke.monkeybook.model.SimpleModel;
 import com.monke.monkeybook.model.analyzeRule.AnalyzeUrl;
 import com.monke.monkeybook.model.content.DefaultShuqi;
+import com.monke.monkeybook.utils.MD5Utils;
 import com.monke.monkeybook.utils.StringUtils;
 
 import java.nio.charset.StandardCharsets;
@@ -42,5 +43,10 @@ public class SimpleJavaExecutorImpl implements SimpleJavaExecutor {
     @Override
     public  String decodeChapterContent(String string) {
         return DefaultShuqi.getInstance().decodeChapterContent(string);
+    }
+
+    @Override
+    public  String Md532(String string) {
+        return MD5Utils.strToMd5By32(string);
     }
 }

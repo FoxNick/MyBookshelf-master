@@ -11,4 +11,6 @@ public interface SimpleJavaExecutor{
     String formatHtml(String string);
 
     String decodeChapterContent(String string);
+
+    String Md532(String string);
 }

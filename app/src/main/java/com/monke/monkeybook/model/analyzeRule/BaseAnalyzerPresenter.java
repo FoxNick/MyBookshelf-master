@@ -284,4 +284,9 @@ abstract class BaseAnalyzerPresenter<S> implements IAnalyzerPresenter, JavaExecu
     public final String decodeChapterContent(String string) {
         return mSimpleJavaExecutor.decodeChapterContent(string);
     }
+
+    @Override
+    public final String Md532(String string) {
+        return mSimpleJavaExecutor.Md532(string);
+    }
 }

@@ -136,7 +136,6 @@ public class WebBookModel implements IWebBookModel {
         } else {
             return DefaultModel.newInstance(tag);
         }
-        return DefaultModel.newInstance(tag);
     }
 
     private Observable<BookShelfBean> updateChapterList(BookShelfBean bookShelfBean, List<ChapterBean> chapterList) {

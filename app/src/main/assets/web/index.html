@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>书源编辑器v3.8</title>
+	<title>皓阅书源编辑器v3.8</title>
 	<link rel="stylesheet" type="text/css" href="/index.css" />
 </head>
 
@@ -135,6 +135,10 @@
 				</div>
 				<div><b>其它规则</b></div>
 				<div>
+					<div>持久变量:</div>
+					<textarea rows="1" id="rulePersistedVariables" placeholder="持久变量(rulePersistedVariables) | 替代@PUT"></textarea>
+				</div>
+				<div>
 					<div>浏览标识:</div>
 					<textarea rows="1" id="httpUserAgent" placeholder="浏览器UA(HttpUserAgent) | 浏览器标识:User-Agent (可选)"></textarea>
 				</div>
@@ -200,7 +204,7 @@
 				</div>
 				<div class="tabbody">
 					<div class="tab1 this">
-						<textarea class="context" id="RuleJsonString" placeholder="这里输出序列化的JSON数据,可直接导入'阅读'APP"></textarea>
+						<textarea class="context" id="RuleJsonString" placeholder="这里输出序列化的JSON数据,可直接导入APP"></textarea>
 					</div>
 					<div class="tab2">
 						<input type="text" class="inputbox" id="DebugKey" placeholder="我的">
@@ -228,7 +232,6 @@
 								<br>(?i) 前缀表示忽略大小写
 							</div>
 							<a target="_blank" href="https://www.beta.browxy.com/">代码在线运行工具</a>
-							<a href="/bookshelf.html">WEB看书 (测试版)</a>
 						</div>
 					</div>
 				</div>
