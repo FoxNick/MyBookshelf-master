@@ -12,6 +12,8 @@ import com.monke.monkeybook.dao.DbHelper;
 import com.monke.monkeybook.help.AppConfigHelper;
 import com.monke.monkeybook.model.analyzeRule.AnalyzeUrl;
 import com.monke.monkeybook.model.analyzeRule.assit.Assistant;
+import com.monke.monkeybook.model.annotation.BookType;
+import com.monke.monkeybook.model.annotation.RuleType;
 import com.monke.monkeybook.utils.StringUtils;
 import com.monke.monkeybook.utils.URLUtils;
 

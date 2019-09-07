@@ -131,9 +131,9 @@ public class WebBookModel implements IWebBookModel {
     private IStationBookModel getBookSourceModel(String tag) throws BookSourceException {
         if (BookShelfBean.LOCAL_TAG.equals(tag)) {
             return null;
-        } else if (TextUtils.equals(tag, DefaultShuqi.TAG)) {
-            return DefaultShuqi.getInstance();
-        } else {
+        } else if (TextUtils.equals(tag, "http://read.xiaoshuo1-sm.com")) {
+            return DefaultShuqi.getInstance(tag);
+        }  else {
             return DefaultModel.newInstance(tag);
         }
     }

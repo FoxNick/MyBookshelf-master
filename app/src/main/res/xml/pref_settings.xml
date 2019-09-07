@@ -65,12 +65,6 @@
             android:summary="@string/show_all_find_s"
             android:title="@string/show_all_find" />
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/pk_source_neizhi"
-            android:layout="@layout/view_preference"
-            android:summary="@string/source_neizhi_find_s"
-            android:title="@string/source_neizhi_find" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="其他">

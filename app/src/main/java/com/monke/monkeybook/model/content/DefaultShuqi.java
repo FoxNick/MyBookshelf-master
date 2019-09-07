@@ -11,52 +11,124 @@ import com.monke.basemvplib.OkHttpHelper;
 import com.monke.monkeybook.bean.BookContentBean;
 import com.monke.monkeybook.bean.BookInfoBean;
 import com.monke.monkeybook.bean.BookShelfBean;
+import com.monke.monkeybook.bean.BookSourceBean;
 import com.monke.monkeybook.bean.ChapterBean;
 import com.monke.monkeybook.bean.SearchBookBean;
+import com.monke.monkeybook.help.CookieHelper;
+import com.monke.monkeybook.help.Logger;
+
+import com.monke.monkeybook.model.BookSourceManager;
+import com.monke.monkeybook.model.SimpleModel;
 import com.monke.monkeybook.model.analyzeRule.AnalyzeHeaders;
+import com.monke.monkeybook.model.analyzeRule.AnalyzeUrl;
 import com.monke.monkeybook.model.annotation.BookType;
+
+import com.monke.monkeybook.model.content.exception.BookSourceException;
 import com.monke.monkeybook.model.impl.IHttpGetApi;
 import com.monke.monkeybook.model.impl.IShuqiApi;
 import com.monke.monkeybook.model.impl.IStationBookModel;
 import com.monke.monkeybook.utils.MD5Utils;
 import com.monke.monkeybook.utils.StringUtils;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
+import retrofit2.Response;
+
 
 public class DefaultShuqi extends BaseModelImpl implements IStationBookModel {
-    public static final String TAG = "书旗小说";
+    private static final String TAG = DefaultShuqi.class.getSimpleName();
+    public String tag;
+    private String name;
+    private BookSourceBean bookSourceBean;
+    private Map<String, String> headerMap;
 
-    private volatile static DefaultShuqi sInstance;
-
-    private DefaultShuqi() {
-    }
-
-    public static DefaultShuqi getInstance() {
-        if (sInstance == null) {
-            synchronized (DefaultShuqi.class) {
-                if (sInstance == null) {
-                    sInstance = new DefaultShuqi();
-                }
-            }
+    private DefaultShuqi(String tag) throws BookSourceException {
+        this.tag = tag;
+        bookSourceBean = BookSourceManager.getByUrl(tag);
+        if (bookSourceBean != null) {
+            name = bookSourceBean.getBookSourceName();
+            headerMap = AnalyzeHeaders.getMap(bookSourceBean);
         }
-        return sInstance;
+        if (bookSourceBean == null) {
+            throw new BookSourceException("没有找到当前书源");
+        }
     }
 
+    public static DefaultShuqi getInstance(String tag) throws BookSourceException {
+        return new DefaultShuqi(tag);
+    }
+
+    private Map<String, String> headerMap(boolean withCookie) {
+        if (headerMap == null) {
+            return null;
+        }
+
+        final Map<String, String> map = new HashMap<>(headerMap);
+        if (!withCookie) {
+            map.remove("Cookie");
+        }
+        return map;
+    }
     /**
      * 发现书籍
      */
     @Override
     public Observable<List<SearchBookBean>> findBook(String url, int page) {
-        return null;
-    }
+        try {
+            final AnalyzeUrl analyzeUrl = new AnalyzeUrl(tag, url, page, headerMap(false));
 
+            return toObservable(analyzeUrl)
+                    .flatMap(response -> fanalyzeSearchBook(response))
+                    .onErrorResumeNext(throwable -> {
+                        if (throwable instanceof IOException) {
+                            return Observable.error(throwable);
+                        }
+                        return Observable.just(new ArrayList<>());
+                    });
+        } catch (Exception e) {
+            Logger.e(TAG, "findBook", e);
+            return Observable.just(new ArrayList<>());
+        }
+    }
+    private Observable<List<SearchBookBean>> fanalyzeSearchBook(final String response) {
+        return Observable.create(e -> {
+            List<SearchBookBean> searchBooks = new ArrayList<>();
+            SearchBookBean item;
+            JsonObject root = new JsonParser().parse(response).getAsJsonObject();
+
+                JsonArray booksArray = root.getAsJsonArray("data");
+                for (JsonElement element : booksArray) {
+                    JsonObject book = element.getAsJsonObject();
+                    String bookId = book.get("bid").getAsString();
+                    item = new SearchBookBean();
+                    item.setTag(tag);
+                    item.setOrigin(name);
+                    item.setBookType(BookType.TEXT);
+                    item.setWeight(Integer.MAX_VALUE);
+                    item.setAuthor(book.get("author").getAsString());
+                    item.setKind(book.get("category").getAsString());
+                    item.setLastChapter(book.get("last_chapter_name").getAsString());
+                    item.setName(book.get("title").getAsString());
+                    item.setNoteUrl("http://c1.shuqireader.com/httpserver/filecache/get_book_content_" + bookId);
+                    item.setCoverUrl(book.get("cover").getAsString().replace("\\/", "/"));
+                    item.setIntroduce(book.get("desc").getAsString());
+                    item.putVariable("bookId", bookId);
+                    searchBooks.add(item);
+                }
+
+            e.onNext(searchBooks);
+            e.onComplete();
+        });
+    }
     /**
      * 搜索书籍
      */
@@ -79,8 +151,8 @@ public class DefaultShuqi extends BaseModelImpl implements IStationBookModel {
                         JsonObject aladdin = root.getAsJsonObject("aladdin");
                         String bookId = aladdin.get("bid").getAsString();
                         item = new SearchBookBean();
-                        item.setTag(TAG);
-                        item.setOrigin(TAG);
+                        item.setTag(tag);
+                        item.setOrigin(name);
                         item.setBookType(BookType.TEXT);
                         item.setWeight(Integer.MAX_VALUE);
                         item.setAuthor(aladdin.get("author").getAsString());
@@ -101,8 +173,8 @@ public class DefaultShuqi extends BaseModelImpl implements IStationBookModel {
                     JsonObject book = element.getAsJsonObject();
                     String bookId = book.get("bid").getAsString();
                     item = new SearchBookBean();
-                    item.setTag(TAG);
-                    item.setOrigin(TAG);
+                    item.setTag(tag);
+                    item.setOrigin(name);
                     item.setBookType(BookType.TEXT);
                     item.setWeight(Integer.MAX_VALUE);
                     item.setAuthor(book.get("author").getAsString());
@@ -153,8 +225,8 @@ public class DefaultShuqi extends BaseModelImpl implements IStationBookModel {
             BookInfoBean bookInfoBean = bookShelfBean.getBookInfoBean();
             bookShelfBean.setLastChapterName(chapterName);
             bookInfoBean.setBookType(BookType.TEXT);
-            bookInfoBean.setTag(TAG);
-            bookInfoBean.setOrigin(TAG);
+            bookInfoBean.setTag(tag);
+            bookInfoBean.setOrigin(name);
             bookInfoBean.setCoverUrl(data.get("imgUrl").getAsString());
             bookInfoBean.setName(data.get("bookName").getAsString());
             bookInfoBean.setAuthor(data.get("authorName").getAsString());
@@ -264,5 +336,44 @@ public class DefaultShuqi extends BaseModelImpl implements IStationBookModel {
         }
         String content = new String(bytes, StandardCharsets.UTF_8);
         return StringUtils.base64Decode(content);
+    }
+
+    private Observable<String> toObservable(AnalyzeUrl analyzeUrl) {
+        return SimpleModel.getResponse(analyzeUrl)
+                .flatMap(response -> setCookie(response, tag))
+                .doOnNext(response -> {
+                    final String requestUrl;
+                    okhttp3.Response networkResponse = response.raw().networkResponse();
+                    if (networkResponse != null) {
+                        requestUrl = networkResponse.request().url().toString();
+                    } else {
+                        requestUrl = response.raw().request().url().toString();
+                    }
+                    analyzeUrl.setRequestUrl(requestUrl);
+                })
+                .map(Response::body);
+    }
+
+
+    private Observable<Response<String>> setCookie(Response<String> response, String tag) {
+        return Observable.create((ObservableOnSubscribe<Response<String>>) e -> {
+            if (!response.raw().headers("Set-Cookie").isEmpty()) {
+                final StringBuilder cookieBuilder = new StringBuilder();
+                for (String s : response.raw().headers("Set-Cookie")) {
+                    String[] x = s.split(";");
+                    for (String y : x) {
+                        if (!TextUtils.isEmpty(y)) {
+                            cookieBuilder.append(y).append(";");
+                        }
+                    }
+                }
+                String cookie = cookieBuilder.toString();
+                if (!TextUtils.isEmpty(cookie)) {
+                    CookieHelper.getInstance().replaceCookie(tag, cookie);
+                }
+            }
+            e.onNext(response);
+            e.onComplete();
+        }).onErrorReturnItem(response);
     }
 }

@@ -7,6 +7,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.google.gson.Gson;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.monke.basemvplib.BasePresenterImpl;
 import com.monke.basemvplib.rxjava.RxExecutors;
 import com.monke.monkeybook.base.observer.SimpleObserver;
@@ -108,7 +110,9 @@ public class SourceEditPresenterImpl extends BasePresenterImpl<SourceEditContrac
     @Override
     public void handleSourceShare() {
         Single.create((SingleOnSubscribe<File>) emitter -> {
+            QRCodeEncoder.HINTS.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
             Bitmap bitmap = QRCodeEncoder.syncEncodeQRCode(mView.getBookSourceStr(), 800);
+            QRCodeEncoder.HINTS.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
             if (bitmap != null) {
                 File file = new File(mView.getContext().getExternalCacheDir(), "bookSource.png");
                 FileOutputStream fOut = new FileOutputStream(file);

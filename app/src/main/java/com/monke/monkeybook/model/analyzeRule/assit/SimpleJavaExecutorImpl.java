@@ -42,7 +42,27 @@ public class SimpleJavaExecutorImpl implements SimpleJavaExecutor {
 
     @Override
     public  String decodeChapterContent(String string) {
-        return DefaultShuqi.getInstance().decodeChapterContent(string);
+            if (string == null) {
+                return "";
+            }
+            byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
+            for (int i = 0; i < bytes.length; i++) {
+                int charAt = bytes[i];
+                if (65 <= charAt && charAt <= 90) {
+                    charAt = charAt + 13;
+                    if (charAt > 90) {
+                        charAt = ((charAt % 90) + 65) - 1;
+                    }
+                } else if (97 <= charAt && charAt <= 122) {
+                    charAt = charAt + 13;
+                    if (charAt > 122) {
+                        charAt = ((charAt % 122) + 97) - 1;
+                    }
+                }
+                bytes[i] = (byte) charAt;
+            }
+            String content = new String(bytes, StandardCharsets.UTF_8);
+            return StringUtils.base64Decode(content);
     }
 
     @Override

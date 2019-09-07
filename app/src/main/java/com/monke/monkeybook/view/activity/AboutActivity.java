@@ -46,10 +46,6 @@ public class AboutActivity extends MBaseActivity {
     TextView tvMail;
     @BindView(R.id.vw_mail)
     CardView vwMail;
-    @BindView(R.id.tv_update)
-    TextView tvUpdate;
-    @BindView(R.id.vw_update)
-    CardView vwUpdate;
     @BindView(R.id.tv_app_summary)
     TextView tvAppSummary;
     @BindView(R.id.tv_update_log)
@@ -89,7 +85,6 @@ public class AboutActivity extends MBaseActivity {
         setTextViewIconColor(tvDisclaimer);
         setTextViewIconColor(tvGit);
         setTextViewIconColor(tvMail);
-        setTextViewIconColor(tvUpdate);
         setTextViewIconColor(tvUpdateLog);
         setTextViewIconColor(tvVersion);
 
@@ -101,10 +96,9 @@ public class AboutActivity extends MBaseActivity {
 
     @Override
     protected void bindEvent() {
-        vwMail.setOnClickListener(view -> openIntent(Intent.ACTION_SENDTO, "mailto:1760316362@qq.com"));
+        vwMail.setOnClickListener(view -> openIntent(Intent.ACTION_SENDTO, "mailto:354435383@qq.com"));
         vwGit.setOnClickListener(view -> openIntent(Intent.ACTION_VIEW, getString(R.string.this_github_url)));
         vwDisclaimer.setOnClickListener(view -> openIntent(Intent.ACTION_VIEW, getString(R.string.disclaimer_url)));
-        vwUpdate.setOnClickListener(view -> openIntent(Intent.ACTION_VIEW, getString(R.string.latest_release_url)));
 
         vwUpdateLog.setOnClickListener(view -> {
             String content = ReadAssets.getText(AboutActivity.this, "updateLog.md");

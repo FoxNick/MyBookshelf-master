@@ -17,6 +17,7 @@ import com.monke.monkeybook.bean.BookSourceBean;
 import com.monke.monkeybook.bean.FindKindBean;
 import com.monke.monkeybook.bean.FindKindGroupBean;
 import com.monke.monkeybook.bean.SearchBookBean;
+import com.monke.monkeybook.bean.SearchEngine;
 import com.monke.monkeybook.help.ACache;
 import com.monke.monkeybook.help.AppConfigHelper;
 import com.monke.monkeybook.help.RxBusTag;
@@ -25,6 +26,7 @@ import com.monke.monkeybook.model.WebBookModel;
 import com.monke.monkeybook.model.analyzeRule.assit.Assistant;
 import com.monke.monkeybook.model.analyzeRule.assit.SimpleJavaExecutor;
 import com.monke.monkeybook.model.analyzeRule.assit.SimpleJavaExecutorImpl;
+import com.monke.monkeybook.model.content.DefaultShuqi;
 import com.monke.monkeybook.presenter.contract.FindBookContract;
 import com.monke.monkeybook.utils.ListUtils;
 import com.monke.monkeybook.utils.MD5Utils;
@@ -343,6 +345,7 @@ public class FindBookPresenterImpl extends BasePresenterImpl<FindBookContract.Vi
             bookSourceBeans = BookSourceManager.getFindEnabled();
         }
         final List<FindKindGroupBean> group = new ArrayList<>();
+
         for (BookSourceBean sourceBean : bookSourceBeans) {
 
             FindKindGroupBean groupBean = getFromBookSource(sourceBean);
@@ -356,6 +359,7 @@ public class FindBookPresenterImpl extends BasePresenterImpl<FindBookContract.Vi
 
     private FindKindGroupBean getFromBookSource(BookSourceBean sourceBean) {
         String findRule = sourceBean.getRuleFindUrl();
+
         if (StringUtils.isBlank(findRule)) {
             return null;
         }
