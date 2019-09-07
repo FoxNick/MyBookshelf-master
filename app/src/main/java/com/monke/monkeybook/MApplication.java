@@ -33,7 +33,7 @@ public class MApplication extends Application {
     public final static String channelIdReadAloud = "channel_read_aloud";
     public final static String channelIdAudioBook = "channel_audio_book";
     public final static String channelIdWeb = "channel_web";
-    private static MApplication instance;
+    private static MApplication instance = new MApplication();
     private static String versionName;
     private static int versionCode;
 

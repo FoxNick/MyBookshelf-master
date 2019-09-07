@@ -23,4 +23,13 @@ public interface IHttpGetApi {
     Observable<Response<String>> searchBook(@Url String url,
                                             @QueryMap(encoded = true) Map<String, String> queryMap,
                                             @HeaderMap Map<String, String> headers);
+    @GET
+    Observable<Response<String>> get(@Url String url,
+                                     @HeaderMap Map<String, String> headers);
+
+    @GET
+    Observable<Response<String>> getMap(@Url String url,
+                                        @QueryMap(encoded = true) Map<String, String> queryMap,
+                                        @HeaderMap Map<String, String> headers);
+
 }

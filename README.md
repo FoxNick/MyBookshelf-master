@@ -1,17 +1,6 @@
-# blog http://www.hostfans.cn
 # 开发
-- 本项目Fork于 https://github.com/ZhangQinhao/MONKOVEL
-- fork 之后主要开发人员 kunfei https://github.com/gedoor
-
-**合作开发人员**
-- 大古队员 https://github.com/DaguDuiyuan
-- ttydy https://github.com/ttydy
-
-# 软件截图
-![image](https://gedoor.github.io/MyBookshelf/image/mybook1.jpg)
-![image](https://gedoor.github.io/MyBookshelf/image/mybook2.jpg)
-![image](https://gedoor.github.io/MyBookshelf/image/mybook3.jpg)
-![image](https://gedoor.github.io/MyBookshelf/image/mybook4.jpg)
+- 项目Fork于 https://github.com/Invinciblelee/MyBookshelf-master
+  针对个人使用习惯做了适量的优化修改。
 
 # 免责声明（Disclaimer）
 阅读是一款提供网络文学搜索的工具，为广大网络文学爱好者提供一种方便、快捷舒适的试读体验。

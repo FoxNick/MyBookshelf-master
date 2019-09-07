@@ -52,6 +52,10 @@ public class AboutActivity extends MBaseActivity {
     TextView tvUpdateLog;
     @BindView(R.id.vw_update_log)
     CardView vwUpdateLog;
+    @BindView(R.id.tv_update)
+    TextView tvUpdate;
+    @BindView(R.id.vw_update)
+    CardView vwUpdate;
 
     public static void startThis(Context context) {
         Intent intent = new Intent(context, AboutActivity.class);
@@ -81,7 +85,7 @@ public class AboutActivity extends MBaseActivity {
     protected void bindView() {
         ButterKnife.bind(this);
         tvVersion.setText(getString(R.string.version_name, MApplication.getVersionName()));
-
+        setTextViewIconColor(tvUpdate);
         setTextViewIconColor(tvDisclaimer);
         setTextViewIconColor(tvGit);
         setTextViewIconColor(tvMail);
@@ -98,8 +102,11 @@ public class AboutActivity extends MBaseActivity {
     protected void bindEvent() {
         vwMail.setOnClickListener(view -> openIntent(Intent.ACTION_SENDTO, "mailto:354435383@qq.com"));
         vwGit.setOnClickListener(view -> openIntent(Intent.ACTION_VIEW, getString(R.string.this_github_url)));
-        vwDisclaimer.setOnClickListener(view -> openIntent(Intent.ACTION_VIEW, getString(R.string.disclaimer_url)));
-
+        vwDisclaimer.setOnClickListener(view -> {
+            String content = ReadAssets.getText(AboutActivity.this, "disclaimer.md");
+            LargeTextDialog.show(getSupportFragmentManager(), content, true);
+        });
+        vwUpdate.setOnClickListener(view -> openIntent(Intent.ACTION_VIEW, getString(R.string.latest_release_url)));
         vwUpdateLog.setOnClickListener(view -> {
             String content = ReadAssets.getText(AboutActivity.this, "updateLog.md");
             LargeTextDialog.show(getSupportFragmentManager(), content, true);
