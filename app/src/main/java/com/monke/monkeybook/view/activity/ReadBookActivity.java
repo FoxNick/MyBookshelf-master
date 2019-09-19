@@ -187,7 +187,7 @@ public class ReadBookActivity extends MBaseActivity<ReadBookContract.Presenter> 
     private Runnable mNextPageRunnable;
 
     private ProgressDialog progressDialog;
-
+    private String Avrurl;
     private ChapterDrawerFragment chapterFragment;
 
     public static void startThis(MBaseActivity activity, BookShelfBean bookShelf) {
@@ -468,8 +468,11 @@ public class ReadBookActivity extends MBaseActivity<ReadBookContract.Presenter> 
             atvLayout.setVisibility(View.GONE);
         } else {
             int chapterIndex = mPresenter.getBookShelf().getDurChapter();
-            atvUrl.setText(URLUtils.getAbsUrl(mPresenter.getBookShelf().getBookInfoBean().getChapterListUrl(),
-                    mPresenter.getBookShelf().getChapter(chapterIndex).getDurChapterUrl()));
+            //atvUrl.setText(URLUtils.getAbsUrl(mPresenter.getBookShelf().getBookInfoBean().getChapterListUrl(),
+            //        mPresenter.getBookShelf().getChapter(chapterIndex).getDurChapterUrl()));
+            Avrurl = URLUtils.getAbsUrl(mPresenter.getBookShelf().getBookInfoBean().getChapterListUrl(),
+                            mPresenter.getBookShelf().getChapter(chapterIndex).getDurChapterUrl());
+            atvUrl.setText(mPresenter.getBookShelf().getChapter(chapterIndex).getDisplayDurChapterName());
             atvSourceName.setText(mPresenter.getBookShelf().getBookInfoBean().getOrigin());
             if (TextUtils.isEmpty(atvUrl.getText())) {
                 atvDivider.setVisibility(View.GONE);
@@ -1130,7 +1133,7 @@ public class ReadBookActivity extends MBaseActivity<ReadBookContract.Presenter> 
 
 
     private void openCurrentChapterBrowser() {
-        String url = atvUrl.getText().toString();
+        String url = Avrurl;
         if (StringUtils.isBlank(url)) {
             return;
         }

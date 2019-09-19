@@ -65,12 +65,12 @@ public class SearchBookPresenterImpl extends BasePresenterImpl<SearchBookContrac
                 }
             }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && keyWord == null && Intent.ACTION_PROCESS_TEXT.equals(intent.getAction())) {
-                String type = intent.getType();
-                if ("text/plain".equals(type)) {
-                    keyWord = intent.getStringExtra(Intent.EXTRA_PROCESS_TEXT);
-                }
-            }
+            //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && keyWord == null && Intent.ACTION_PROCESS_TEXT.equals(intent.getAction())) {
+            //    String type = intent.getType();
+            //    if ("text/plain".equals(type)) {
+            //        keyWord = intent.getStringExtra(Intent.EXTRA_PROCESS_TEXT);
+            //    }
+            //}
         }
 
         mView.searchBook(keyWord);

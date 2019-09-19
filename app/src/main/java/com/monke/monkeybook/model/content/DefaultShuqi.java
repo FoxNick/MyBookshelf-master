@@ -103,19 +103,26 @@ public class DefaultShuqi extends BaseModelImpl implements IStationBookModel {
         return Observable.create(e -> {
             List<SearchBookBean> searchBooks = new ArrayList<>();
             SearchBookBean item;
+            String zhuangtai;
             JsonObject root = new JsonParser().parse(response).getAsJsonObject();
 
                 JsonArray booksArray = root.getAsJsonArray("data");
                 for (JsonElement element : booksArray) {
                     JsonObject book = element.getAsJsonObject();
                     String bookId = book.get("bid").getAsString();
+                    if(book.get("status").getAsInt() == 1)
+                    {
+                        zhuangtai = "完结";
+                    }else{
+                        zhuangtai = "连载";
+                    }
                     item = new SearchBookBean();
                     item.setTag(tag);
                     item.setOrigin(name);
                     item.setBookType(BookType.TEXT);
                     item.setWeight(Integer.MAX_VALUE);
                     item.setAuthor(book.get("author").getAsString());
-                    item.setKind(book.get("category").getAsString());
+                    item.setKind(book.get("category").getAsString()+","+zhuangtai+","+book.get("words").getAsInt());
                     item.setLastChapter(book.get("last_chapter_name").getAsString());
                     item.setName(book.get("title").getAsString());
                     item.setNoteUrl("http://c1.shuqireader.com/httpserver/filecache/get_book_content_" + bookId);
@@ -143,6 +150,7 @@ public class DefaultShuqi extends BaseModelImpl implements IStationBookModel {
         return Observable.create(e -> {
             List<SearchBookBean> searchBooks = new ArrayList<>();
             SearchBookBean item;
+            String zhuangtai;
             JsonObject root = new JsonParser().parse(response).getAsJsonObject();
             JsonObject info = root.getAsJsonObject("info");
                 int pageI = info.get("page").getAsInt();
@@ -150,13 +158,19 @@ public class DefaultShuqi extends BaseModelImpl implements IStationBookModel {
                     if (root.has("aladdin")) {
                         JsonObject aladdin = root.getAsJsonObject("aladdin");
                         String bookId = aladdin.get("bid").getAsString();
+                        if(aladdin.get("status").getAsInt() == 1)
+                        {
+                            zhuangtai = "完结";
+                        }else{
+                            zhuangtai = "连载";
+                        }
                         item = new SearchBookBean();
                         item.setTag(tag);
                         item.setOrigin(name);
                         item.setBookType(BookType.TEXT);
                         item.setWeight(Integer.MAX_VALUE);
                         item.setAuthor(aladdin.get("author").getAsString());
-                        item.setKind(aladdin.get("category").getAsString());
+                        item.setKind(aladdin.get("category").getAsString()+","+zhuangtai+","+aladdin.get("words").getAsInt());
                         item.setLastChapter(aladdin.get("latest_chapter").getAsJsonObject().get("cname").getAsString());
                         item.setName(aladdin.get("title").getAsString());
                         item.setNoteUrl("http://c1.shuqireader.com/httpserver/filecache/get_book_content_" + bookId);
@@ -172,13 +186,19 @@ public class DefaultShuqi extends BaseModelImpl implements IStationBookModel {
                 for (JsonElement element : booksArray) {
                     JsonObject book = element.getAsJsonObject();
                     String bookId = book.get("bid").getAsString();
+                    if(book.get("status").getAsInt() == 1)
+                    {
+                        zhuangtai = "完结";
+                    }else{
+                        zhuangtai = "连载";
+                    }
                     item = new SearchBookBean();
                     item.setTag(tag);
                     item.setOrigin(name);
                     item.setBookType(BookType.TEXT);
                     item.setWeight(Integer.MAX_VALUE);
                     item.setAuthor(book.get("author").getAsString());
-                    item.setKind(book.get("category").getAsString());
+                    item.setKind(book.get("category").getAsString()+","+zhuangtai+","+book.get("words").getAsInt());
                     item.setLastChapter(book.get("first_chapter").getAsString());
                     item.setName(book.get("title").getAsString());
                     item.setNoteUrl("http://c1.shuqireader.com/httpserver/filecache/get_book_content_" + bookId);

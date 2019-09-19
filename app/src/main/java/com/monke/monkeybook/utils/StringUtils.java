@@ -346,6 +346,12 @@ public class StringUtils {
         return joiner.toString();
     }
 
+    public static boolean isTrimEmpty(String text) {
+        if (text == null) return true;
+        if (text.length() == 0) return true;
+        return text.trim().length() == 0;
+    }
+
     public static boolean isContainNumber(String company) {
         Pattern p = Pattern.compile("[0-9]");
         Matcher m = p.matcher(company);

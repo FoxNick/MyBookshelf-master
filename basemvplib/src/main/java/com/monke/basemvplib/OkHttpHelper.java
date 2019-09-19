@@ -34,7 +34,7 @@ public class OkHttpHelper {
         return mInstance;
     }
 
-    public Retrofit getRetrofitString(String url) {
+    private Retrofit getRetrofitString(String url) {
         return new Retrofit.Builder().baseUrl(url)
                 //增加返回值为字符串的支持(以实体类返回)
                 .addConverterFactory(EncodeConverter.create())
@@ -44,7 +44,7 @@ public class OkHttpHelper {
                 .build();
     }
 
-    public Retrofit getRetrofitString(String url, String encode) {
+    private Retrofit getRetrofitString(String url, String encode) {
         return new Retrofit.Builder().baseUrl(url)
                 //增加返回值为字符串的支持(以实体类返回)
                 .addConverterFactory(EncodeConverter.create(encode))

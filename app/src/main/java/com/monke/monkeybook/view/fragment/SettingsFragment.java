@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import com.hwangjr.rxbus.RxBus;
 import com.monke.monkeybook.R;
 import com.monke.monkeybook.dao.DbHelper;
+import com.monke.monkeybook.help.ProcessTextHelp;
 import com.monke.monkeybook.help.RxBusTag;
 import com.monke.monkeybook.service.WebService;
 import com.monke.monkeybook.view.activity.SettingActivity;
@@ -31,10 +32,14 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getPreferenceManager().setSharedPreferencesName("CONFIG");
-        addPreferencesFromResource(R.xml.pref_settings);
         mContext = this.getActivity();
         settingActivity = (SettingActivity) this.getActivity();
-
+        SharedPreferences sharedPreferences = getPreferenceManager().getSharedPreferences();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        boolean processTextEnabled = ProcessTextHelp.isProcessTextEnabled();
+        editor.putBoolean("process_text", processTextEnabled);
+        editor.apply();
+        addPreferencesFromResource(R.xml.pref_settings);
         bindPreferenceSummaryToValue(findPreference(mContext.getString(R.string.pk_bookshelf_px)));
     }
 
@@ -102,6 +107,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             DbHelper.getInstance().getDaoSession().getChapterBeanDao().detachAll();
         } else if (key.equals(getString(R.string.pk_show_all_find))) {
             RxBus.get().post(RxBusTag.FIND_LIST_CHANGE, true);
+        } else if (key.equals("process_text")) {
+            ProcessTextHelp.setProcessTextEnable(sharedPreferences.getBoolean("process_text", true));
         } else if (key.equals("webPort")) {
             WebService.upHttpServer(settingActivity);
         }

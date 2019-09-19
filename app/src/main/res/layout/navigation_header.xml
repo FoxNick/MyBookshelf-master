@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/side_nav_bar"
+    android:background="@color/colorBackground"
     android:orientation="vertical"
     android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -13,7 +13,7 @@
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
         android:src="@drawable/ic_read"
-        android:tint="@color/colorBarText" />
+        android:tint="@color/colorAccent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_user"
@@ -23,8 +23,14 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="10dp"
         android:singleLine="true"
+        android:textColor="@color/colorTextDefault"
         android:text="@string/read_summary"
         android:textSize="14sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.9dp"
+        android:background="@color/colorProgress" />
 
 </LinearLayout>
 

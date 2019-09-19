@@ -79,14 +79,19 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Activity.Search"
             android:windowSoftInputMode="stateVisible|adjustNothing">
+        </activity>
+        <activity
+            android:name=".view.activity.ReceivingSharedActivity"
+            android:enabled="true"
+            android:label="@string/search_label">
             <intent-filter>
                 <action android:name="android.intent.action.PROCESS_TEXT" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
             </intent-filter>
             <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
@@ -96,7 +101,12 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Activity" />
-
+        <activity
+            android:name=".view.activity.UpdateActivity"
+            android:configChanges="locale|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Activity" />
         <activity
             android:name=".view.activity.BookDetailActivity"
             android:configChanges="locale|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout"
@@ -195,7 +205,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Activity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity
             android:name=".help.permission.PermissionActivity"
             android:launchMode="singleTask"
@@ -207,6 +216,7 @@
         <service android:name=".service.CheckSourceService" />
         <service android:name=".service.AudioBookPlayService" />
         <service android:name=".service.WebService" />
+        <service android:name=".service.UpdateService" />
 
         <receiver android:name=".service.MediaButtonIntentReceiver">
             <intent-filter>
