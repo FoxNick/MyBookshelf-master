@@ -6,6 +6,7 @@ import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,7 +34,7 @@ public class MApplication extends Application {
     public final static String channelIdReadAloud = "channel_read_aloud";
     public final static String channelIdAudioBook = "channel_audio_book";
     public final static String channelIdWeb = "channel_web";
-    private static MApplication instance = new MApplication();
+    private static MApplication instance;
     private static String versionName;
     private static int versionCode;
 
@@ -55,7 +56,6 @@ public class MApplication extends Application {
         return app.getProxyCacheServer();
     }
 
-
     private HttpProxyCacheServer getProxyCacheServer() {
         if (proxyCacheServer == null) {
             proxyCacheServer = new HttpProxyCacheServer.Builder(this)
@@ -70,7 +70,7 @@ public class MApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        instance = this;
         try {
             versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
             versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;

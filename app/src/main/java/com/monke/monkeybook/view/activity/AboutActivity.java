@@ -4,17 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-
 import com.monke.basemvplib.impl.IPresenter;
 import com.monke.monkeybook.MApplication;
 import com.monke.monkeybook.R;
 import com.monke.monkeybook.base.MBaseActivity;
+import com.monke.monkeybook.help.UpdateManager;
 import com.monke.monkeybook.utils.ReadAssets;
 import com.monke.monkeybook.view.fragment.dialog.LargeTextDialog;
 import com.monke.monkeybook.widget.theme.AppCompat;
@@ -59,6 +60,7 @@ public class AboutActivity extends MBaseActivity {
 
     public static void startThis(Context context) {
         Intent intent = new Intent(context, AboutActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
@@ -84,6 +86,8 @@ public class AboutActivity extends MBaseActivity {
     @Override
     protected void bindView() {
         ButterKnife.bind(this);
+        this.setSupportActionBar(toolbar);
+        setupActionBar();
         tvVersion.setText(getString(R.string.version_name, MApplication.getVersionName()));
         setTextViewIconColor(tvUpdate);
         setTextViewIconColor(tvDisclaimer);
@@ -106,7 +110,9 @@ public class AboutActivity extends MBaseActivity {
             String content = ReadAssets.getText(AboutActivity.this, "disclaimer.md");
             LargeTextDialog.show(getSupportFragmentManager(), content, true);
         });
-        vwUpdate.setOnClickListener(view -> openIntent(Intent.ACTION_VIEW, getString(R.string.latest_release_url)));
+        vwUpdate.setOnClickListener(view ->{
+            UpdateManager.getInstance(this).checkUpdate(true);
+        });
         vwUpdateLog.setOnClickListener(view -> {
             String content = ReadAssets.getText(AboutActivity.this, "updateLog.md");
             LargeTextDialog.show(getSupportFragmentManager(), content, true);

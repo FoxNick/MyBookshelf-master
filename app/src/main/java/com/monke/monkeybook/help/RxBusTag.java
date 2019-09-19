@@ -28,4 +28,5 @@ public class RxBusTag {
     public final static String AUDIO_PLAY = "audioPlay";
     public final static String BOOK_DOWNLOAD = "bookDownload";
     public final static String CLEAN_BOOK_CACHE = "CLEAN_BOOK_CACHE";
+    public final static String UPDATE_APK_STATE = "updateApkState";
 }

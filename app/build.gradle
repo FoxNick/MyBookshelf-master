@@ -4,7 +4,7 @@ apply plugin: 'org.greenrobot.greendao'
 static def getVersionName() {
     return String.format(Locale.getDefault(), "2.2.%d", (int) (System.currentTimeMillis() / 1000 / 60 / 60))
 }
-
+def gitCommits = Integer.parseInt('git rev-list --count HEAD'.execute([], project.rootDir).text.trim())
 def getVersionCode() {// 获取版本号
     def versionFile = file('version.properties')// 读取第一步新建的文件
     if (versionFile.canRead()) {// 判断文件读取异常
@@ -152,6 +152,9 @@ dependencies {
 	//webServer
     implementation 'org.nanohttpd:nanohttpd:2.3.1'
     implementation 'org.nanohttpd:nanohttpd-websocket:2.3.1'
+
+    //MarkDown
+    implementation 'ru.noties.markwon:core:3.0.2'
 }
 
 greendao {

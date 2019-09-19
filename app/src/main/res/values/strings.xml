@@ -321,4 +321,7 @@
     <string name="look_more"><![CDATA[查看更多>]]></string>
     <string name="enable_source">启用书源</string>
     <string name="enable_find">启用发现</string>
+    <string name="new_version">新版本</string>
+    <string name="download_update">下载更新</string>
+    <string name="non_update_url">没有获取到更新地址</string>
 </resources>

@@ -65,6 +65,13 @@
             android:summary="@string/show_all_find_s"
             android:title="@string/show_all_find" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="process_text"
+            android:layout="@layout/view_preference"
+            android:summary="长按文字在操作菜单中显示皓阅·搜索"
+            android:title="文字操作显示搜索" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="其他">
