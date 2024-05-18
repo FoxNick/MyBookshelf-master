@@ -11,6 +11,7 @@ import com.monke.monkeybook.help.FileHelp;
 import com.monke.monkeybook.presenter.contract.CacheManagerContract;
 import com.monke.monkeybook.utils.IOUtils;
 import com.monke.monkeybook.utils.StringUtils;
+import io.github.pixee.security.BoundedLineReader;
 
 import java.io.BufferedReader;
 import java.io.File;
