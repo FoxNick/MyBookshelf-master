@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.Locale;
 
 public class ChapterContentHelp {
@@ -87,7 +88,7 @@ public class ChapterContentHelp {
         }
         File file = getBookFile(folderName, formatFileName(fileName));
         //获取流并存储
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+        try (BufferedWriter writer = Files.newBufferedWriter(file.toPath())) {
             writer.write(content);
             writer.flush();
             return true;
