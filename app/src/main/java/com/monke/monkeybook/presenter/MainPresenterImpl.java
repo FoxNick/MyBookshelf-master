@@ -26,6 +26,8 @@ import com.monke.monkeybook.model.WebBookModel;
 import com.monke.monkeybook.model.content.exception.BookSourceException;
 import com.monke.monkeybook.presenter.contract.MainContract;
 import com.monke.monkeybook.utils.StringUtils;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import java.io.File;
 import java.net.URL;
