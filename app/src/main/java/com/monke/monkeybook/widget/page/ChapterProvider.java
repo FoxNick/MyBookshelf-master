@@ -22,6 +22,7 @@ import com.monke.monkeybook.model.content.exception.BookSourceException;
 import com.monke.monkeybook.utils.IOUtils;
 import com.monke.monkeybook.utils.ObjectsCompat;
 import com.monke.monkeybook.utils.StringUtils;
+import io.github.pixee.security.BoundedLineReader;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
@@ -91,9 +92,9 @@ class ChapterProvider {
             boolean showTitle = ReadBookControl.getInstance().getShowTitle(); // 是否展示标题
             String paragraph = chapter.getDisplayDurChapterName() + "\n"; //默认展示标题
             if (collBook.isLocalBook()) {
-                br.readLine();
+                BoundedLineReader.readLine(br, 5_000_000);
             }
-            while (showTitle || (paragraph = br.readLine()) != null) {
+            while (showTitle || (paragraph = BoundedLineReader.readLine(br, 5_000_000)) != null) {
                 paragraph = ChapterContentHelp.replaceContent(bookInfo.getName(), bookInfo.getTag(), paragraph);
                 // 重置段落
                 if (!showTitle) {
