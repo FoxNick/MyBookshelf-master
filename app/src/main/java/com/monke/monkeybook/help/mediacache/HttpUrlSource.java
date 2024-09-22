@@ -6,6 +6,8 @@ import com.monke.monkeybook.help.mediacache.headers.EmptyHeadersInjector;
 import com.monke.monkeybook.help.mediacache.headers.HeaderInjector;
 import com.monke.monkeybook.help.mediacache.sourcestorage.SourceInfoStorage;
 import com.monke.monkeybook.help.mediacache.sourcestorage.SourceInfoStorageFactory;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -159,7 +161,7 @@ public class HttpUrlSource implements Source {
         String url = this.sourceInfo.url;
         do {
             LOG.debug("Open connection " + (offset > 0 ? " with offset " + offset : "") + " to " + url);
-            connection = (HttpURLConnection) new URL(url).openConnection();
+            connection = (HttpURLConnection) Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openConnection();
             injectCustomHeaders(connection, url);
             if (offset > 0) {
                 connection.setRequestProperty("Range", "bytes=" + offset + "-");

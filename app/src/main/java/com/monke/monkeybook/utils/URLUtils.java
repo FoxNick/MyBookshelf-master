@@ -1,5 +1,7 @@
 package com.monke.monkeybook.utils;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -33,7 +35,7 @@ public class URLUtils {
 
     public static String resolve(String baseUrl, String relPath) {
         try {
-            URL parseUrl = new URL(new URL(baseUrl), relPath);
+            URL parseUrl = Urls.create(Urls.create(baseUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS), relPath, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             return parseUrl.toString();
         } catch (MalformedURLException ignore) {
         }
