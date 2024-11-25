@@ -9,6 +9,7 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import io.github.pixee.security.BoundedLineReader;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -167,7 +168,7 @@ public class ACache {
 			in = new BufferedReader(new FileReader(file));
 			String readString = "";
 			String currentLine;
-			while ((currentLine = in.readLine()) != null) {
+			while ((currentLine = BoundedLineReader.readLine(in, 5_000_000)) != null) {
 				readString += currentLine;
 			}
 			if (!Utils.isDue(readString)) {
