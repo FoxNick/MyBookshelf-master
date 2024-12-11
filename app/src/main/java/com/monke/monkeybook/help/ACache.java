@@ -9,6 +9,7 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import java.nio.file.Files;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -116,7 +117,7 @@ public class ACache {
 			File file = mCache.newFile(key);
 			BufferedWriter out = null;
 			try {
-				out = new BufferedWriter(new FileWriter(file), 1024);
+				out = Files.newBufferedWriter(file.toPath());
 				out.write(value);
 			} catch (IOException e) {
 				e.printStackTrace();
