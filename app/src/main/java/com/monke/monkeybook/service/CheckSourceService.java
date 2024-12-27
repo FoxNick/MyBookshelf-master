@@ -24,6 +24,8 @@ import com.monke.monkeybook.model.WebBookModel;
 import com.monke.monkeybook.model.analyzeRule.AnalyzeHeaders;
 import com.monke.monkeybook.model.impl.IHttpGetApi;
 import com.monke.monkeybook.view.activity.BookSourceActivity;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import java.net.URL;
 import java.util.List;
@@ -191,7 +193,7 @@ public class CheckSourceService extends Service {
         private void startCheck() {
             if (!TextUtils.isEmpty(sourceBean.getCheckUrl())) {
                 try {
-                    new URL(sourceBean.getCheckUrl());
+                    Urls.create(sourceBean.getCheckUrl(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                     BookShelfBean bookShelfBean = new BookShelfBean();
                     bookShelfBean.setTag(sourceBean.getBookSourceUrl());
                     bookShelfBean.setNoteUrl(sourceBean.getCheckUrl());
@@ -210,7 +212,7 @@ public class CheckSourceService extends Service {
                 }
             } else {
                 try {
-                    new URL(sourceBean.getBookSourceUrl());
+                    Urls.create(sourceBean.getBookSourceUrl(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                     OkHttpHelper.getInstance()
                             .createService(sourceBean.getBookSourceUrl(), IHttpGetApi.class)
                             .getWebContent(sourceBean.getBookSourceUrl(), AnalyzeHeaders.getMap(null))
