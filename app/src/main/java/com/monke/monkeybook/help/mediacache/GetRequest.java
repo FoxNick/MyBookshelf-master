@@ -1,6 +1,7 @@
 package com.monke.monkeybook.help.mediacache;
 
 import android.text.TextUtils;
+import io.github.pixee.security.BoundedLineReader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,7 +39,7 @@ class GetRequest {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
         StringBuilder stringRequest = new StringBuilder();
         String line;
-        while (!TextUtils.isEmpty(line = reader.readLine())) { // until new line (headers ending)
+        while (!TextUtils.isEmpty(line = BoundedLineReader.readLine(reader, 5_000_000))) { // until new line (headers ending)
             stringRequest.append(line).append('\n');
         }
         return new GetRequest(stringRequest.toString());
