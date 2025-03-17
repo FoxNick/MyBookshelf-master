@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -254,7 +255,7 @@ public class BookshelfHelp {
 
     private static void saveChaptersToFile(String noteUrl, List<ChapterBean> chapterBeans) {
         File file = FileHelp.getFile(Constant.BOOK_CHAPTER_PATH, getChapterKey(noteUrl) + FileHelp.SUFFIX_CHAP);
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+        try (BufferedWriter writer = Files.newBufferedWriter(file.toPath())) {
             writer.write(Assistant.toJson(new ArrayList<>(chapterBeans)));
             writer.flush();
         } catch (Exception ignore) {
